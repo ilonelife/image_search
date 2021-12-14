@@ -10,5 +10,14 @@ final fakePhotos = [
   Photo(
     previewURL: "https://cdn.pixabay.com/photo/2018/01/28/11/24/sunflower-3113318_150.jpg",
   ),
+  Photo(
+    previewURL: "https://cdn.pixabay.com/photo/2021/08/02/05/17/sunflowers-6515860_150.jpg",
+  ),
+  Photo(
+    previewURL: "https://cdn.pixabay.com/photo/2021/07/19/15/47/lily-6478427_150.jpg",
+  ),
+  Photo(
+    previewURL: "https://cdn.pixabay.com/photo/2015/04/19/08/33/flower-729515_150.jpg",
+  ),
 
 ];
