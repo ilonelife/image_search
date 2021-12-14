@@ -11,7 +11,7 @@ class HomeScreen extends StatelessWidget {
         title: Text('이미지 검색'),
       ),
       body: GridView.count(
-        crossAxisCount: 2,
+        crossAxisCount: 3,
         children: fakePhotos.map((e) => Image.network(e.previewURL)).toList(),
       ),
     );
