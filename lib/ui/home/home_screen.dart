@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_search/data/fake_data.dart';
+import 'package:http/http.dart' as http;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -56,11 +57,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisSpacing: 32,
                 padding: const EdgeInsets.all(16),
                 crossAxisCount: 2,
-                children:
-                    fakePhotos.map((e) => ClipRRect(
-                      borderRadius: BorderRadius.circular(16),
+                children: fakePhotos
+                    .map((e) => ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
                         clipBehavior: Clip.hardEdge,
-                        child: Image.network(e.previewURL, fit: BoxFit.cover,))).toList(),
+                        child: Image.network(
+                          e.previewURL,
+                          fit: BoxFit.cover,
+                        )))
+                    .toList(),
               ),
             ),
           ],
