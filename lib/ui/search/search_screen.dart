@@ -15,7 +15,7 @@ class _SearchScreenState extends State<SearchScreen> {
   String? keyword;
   Pixabay? _pixabay;
   String url = 'https://pixabay.com/api/?'
-  'key=24806095-fea70a37f71c6222b27afd5be&q=iphone&image_type=photo&pretty=true';
+      'key=24806095-fea70a37f71c6222b27afd5be&q=iphone&image_type=photo&pretty=true';
 
   final _formKey = GlobalKey<FormState>();
   final _searchController = TextEditingController();
@@ -102,14 +102,16 @@ class _SearchScreenState extends State<SearchScreen> {
                     onPressed: () {
                       String input = _searchController.text;
                       print(_searchController);
-                      url = 'https://pixabay.com/api/?key=24806095-fea70a37f71c6222b27afd5be&'
-                            'q=$input&image_type=photo&pretty=true';
+                      url =
+                          'https://pixabay.com/api/?key=24806095-fea70a37f71c6222b27afd5be&'
+                          'q=$input&image_type=photo&pretty=true';
                       setState(() {});
                     },
                     icon: Icon(Icons.search),
                   ),
                 ],
               ),
+              const SizedBox(height: 20,),
               FutureBuilder<List<Pixabay>>(
                   future: fetchPixabays(),
                   builder: (context, snapshot) {
@@ -142,19 +144,21 @@ class _SearchScreenState extends State<SearchScreen> {
 }
 
 Widget _buildPixabays(List<Pixabay> pixabays) {
-  print('test....');
-  print('_searchController.text');
   return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListView.builder(
-    itemCount: pixabays.length,
-    itemBuilder: (context, index) {
-        return ListTile(
-          title: Text(pixabays[index].tags),
-          leading: Image.network(pixabays[index].previewURL),
-        );
+      child: ListView.builder(
+        itemCount: pixabays.length,
+        itemBuilder: (context, index) {
+          return Column(
+            children: [
+              Image.network(pixabays[index].previewURL),
+              Text(pixabays[index].tags),
+              const SizedBox(height: 20,)
+            ],
+          );
+      //       ListTile(
+      //       title: Text(pixabays[index].tags),
+      //       leading: Image.network(pixabays[index].previewURL),
+      //        );
     },
-  ),
-      ));
+  ));
 }
