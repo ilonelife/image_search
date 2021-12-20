@@ -21,6 +21,11 @@ class Album {
     );
   }
 
+  //
+  static List<Album> listToAlbums(List jsonList) {
+    return jsonList.map((e) => Album.fromJson(e)).toList();
+  }
+
   // 별도로 추가함
   @override
   String toString() {
