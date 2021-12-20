@@ -1,7 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart'
+    as http; //http는 클래스가 없고 탑레벨 함수로 구성되어 있음.. 그래서 http.get() 으로 호출함
 import 'package:image_search/model/album.dart';
 
 class TestScreen extends StatefulWidget {
@@ -12,8 +13,16 @@ class TestScreen extends StatefulWidget {
 }
 
 class _TestScreenState extends State<TestScreen> {
-  // late Album _album;
+  // late Album _album;  아래 코드가 더 낫다??
   Album? _album;
+
+  Future<void> init() async {
+    Album album = await fetchAlbum();
+
+    setState(() {
+      _album = album;
+    });
+  }
 
   // 오래 걸리는 처리,  비동기 처리
   Future<Album> fetchAlbum() async {
@@ -21,7 +30,7 @@ class _TestScreenState extends State<TestScreen> {
     final response = await http
         .get(Uri.parse('https://jsonplaceholder.typicode.com/albums/1'));
 
-      // 웹 응답코드 :
+    // 웹 응답코드 :
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
@@ -39,22 +48,26 @@ class _TestScreenState extends State<TestScreen> {
     // TODO: implement initState
     // fethAlbum 해서 album을 가져오고..이것을 _album 에 넣는다...
     super.initState();
-    fetchAlbum().then((album) {
-      setState(() {
-        _album = album;
-      });
-    });
+    init();
+    // fetchAlbum().then((album) {
+    //   setState(() {
+    //     _album = album;
+    //   });
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            title: Text('test'),
-        ),
-        body: Container(
-          child: Text(_album.toString()),
-        ),
+      appBar: AppBar(
+        title: Text('test'),
+      ),
+      body: _album == null
+          ? const Center(child: CircularProgressIndicator())
+          : Text(
+              '${_album!.id} : ${_album.toString()}',
+              style: const TextStyle(fontSize: 30.0),
+            ),
     );
   }
 }
