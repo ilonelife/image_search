@@ -86,10 +86,11 @@ class _TestScreenState extends State<TestScreen> {
         child: Column(
           children: [
             ElevatedButton(
-                onPressed: () {
-                  setState(() {});
-                },
-                child: Text('앨범 가져오기')),
+              onPressed: () {
+                setState(() {});
+              },
+              child: Text('앨범 가져오기'),
+            ),
             FutureBuilder<Album>(
               // setState 없이  이 코드로 진행함...
               future: fetchAlbum(),
@@ -122,7 +123,9 @@ class _TestScreenState extends State<TestScreen> {
                 // );
               },
             ),
-            Divider(color: Colors.indigo,),
+            Divider(
+              color: Colors.indigo,
+            ),
             FutureBuilder<List<Album>>(
               // setState 없이  이 코드로 진행함...
               future: fetchAlbums(),
@@ -170,6 +173,7 @@ class _TestScreenState extends State<TestScreen> {
 }
 
 Widget _buildAlbums(List<Album> albums) {
+  print('test');
   return Expanded(
     child: ListView.builder(
       itemCount: albums.length,
