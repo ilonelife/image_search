@@ -5,24 +5,34 @@ import 'package:http/http.dart'
     as http; //http는 클래스가 없고 탑레벨 함수로 구성되어 있음.. 그래서 http.get() 으로 호출함
 import 'package:image_search/model/album.dart';
 
-class TestScreen extends StatefulWidget {
+// class TestScreen extends StatefulWidget {
+//   const TestScreen({Key? key}) : super(key: key);
+//
+//   @override
+//   State<TestScreen> createState() => _TestScreenState();
+// }
+
+// class _TestScreenState extends State<TestScreen> {
+//   // late Album _album;  아래 코드가 더 낫다??
+//   Album? _album;
+//
+//   Future<void> init() async {
+//     Album album = await fetchAlbum();
+//
+//     setState(() {
+//       _album = album;
+//     });
+//   }
+
+class TestScreen extends StatelessWidget {
   const TestScreen({Key? key}) : super(key: key);
 
-  @override
-  State<TestScreen> createState() => _TestScreenState();
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container();
+//   }
+// }
 
-class _TestScreenState extends State<TestScreen> {
-  // late Album _album;  아래 코드가 더 낫다??
-  Album? _album;
-
-  Future<void> init() async {
-    Album album = await fetchAlbum();
-
-    setState(() {
-      _album = album;
-    });
-  }
 
   // 오래 걸리는 처리,  비동기 처리
   Future<Album> fetchAlbum() async {
@@ -44,17 +54,17 @@ class _TestScreenState extends State<TestScreen> {
   }
 
   @override
-  void initState() {
+  //void initState() {
     // TODO: implement initState
     // fethAlbum 해서 album을 가져오고..이것을 _album 에 넣는다...
-    super.initState();
-    init();
+    //super.initState();
+   // init();
     // fetchAlbum().then((album) {
     //   setState(() {
     //     _album = album;
     //   });
     // });
-  }
+//  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,12 +72,50 @@ class _TestScreenState extends State<TestScreen> {
       appBar: AppBar(
         title: Text('test'),
       ),
-      body: _album == null
-          ? const Center(child: CircularProgressIndicator())
-          : Text(
-              '${_album!.id} : ${_album.toString()}',
-              style: const TextStyle(fontSize: 30.0),
-            ),
+      body: FutureBuilder<Album>(   // setState 없이  이 코드로 진행함...
+        future: fetchAlbum(),
+        builder: (context, snapshot) {
+          // 에러가 있다면
+          if (snapshot.hasError) {
+            return const Center(
+              child: Text('네트워크 에러'),
+            );
+          }
+          // 연결 중이면
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          // 데이터가 없다면
+          if (!snapshot.hasData) {
+            return const Center(
+              child: Text('데이터가 없습니다'),
+            );
+          }
+          final Album album = snapshot.data!;
+          // 최종 데이터를 표시하게 됨..
+          return _buildBody(album);
+
+          //   Text(
+          //   '${album.id} : ${album.toString()}',
+          //   style: const TextStyle(fontSize: 30.0),
+          // );
+        },
+      ),
+      // body: _album == null
+      //     ? const Center(child: CircularProgressIndicator())
+      //     : Text(
+      //         '${_album!.id} : ${_album.toString()}',
+      //         style: const TextStyle(fontSize: 30.0),
+      //       ),
     );
   }
+}
+
+Widget _buildBody(Album album) {
+  return Text(
+        '${album.id} : ${album.toString()}',
+        style: const TextStyle(fontSize: 30.0),
+  );
 }
