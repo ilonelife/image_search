@@ -14,7 +14,7 @@ class Pixabay {
     );
   }
 
-  static List<Pixabay> listToAlbums(List jsonList) {
+  static List<Pixabay> listToPixabays(List jsonList) {
     return jsonList.map((e) => Pixabay.fromJson(e)).toList();
   }
 
@@ -24,3 +24,13 @@ class Pixabay {
     return 'Pixabay{previewURL: $previewURL, tags: $tags}';
   }
 }
+
+/*
+전체 가져오기 방식
+
+class Pixabay {
+  int total;
+  int totalHit;
+  List<Hits> hits;
+}
+*/

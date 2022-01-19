@@ -13,8 +13,7 @@ class TestScreen extends StatefulWidget {
 }
 
 class _TestScreenState extends State<TestScreen> {
-  // late Album _album;  아래 코드가 더 낫다??
-  Album? _album;
+  Album? _album; // late Album _album; 보다 낫다?
 
   Future<void> init() async {
     Album album = await fetchAlbum();
@@ -116,11 +115,6 @@ class _TestScreenState extends State<TestScreen> {
                 final Album album = snapshot.data!;
                 // 최종 데이터를 표시하게 됨..
                 return _buildBody(album);
-
-                //   Text(
-                //   '${album.id} : ${album.toString()}',
-                //   style: const TextStyle(fontSize: 30.0),
-                // );
               },
             ),
             Divider(
@@ -152,11 +146,6 @@ class _TestScreenState extends State<TestScreen> {
                 final List<Album> albums = snapshot.data!;
                 // 최종 데이터를 표시하게 됨..
                 return _buildAlbums(albums);
-
-                //   Text(
-                //   '${album.id} : ${album.toString()}',
-                //   style: const TextStyle(fontSize: 30.0),
-                // );
               },
             ),
           ],
